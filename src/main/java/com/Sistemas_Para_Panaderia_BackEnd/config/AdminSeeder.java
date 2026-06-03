@@ -25,14 +25,13 @@ public class AdminSeeder implements CommandLineRunner {
 
         Optional<User> adminOptional = userRepository.findByEmail(adminEmail);
 
-        // Solo creamos el administrador si no existe previamente en la base de datos
         if (adminOptional.isEmpty()) {
             User adminUser = User.builder()
                     .firstName("Pierosebas8 Admin")
                     .email(adminEmail)
                     .password(passwordEncoder.encode("BriselliAdmin2026!"))
                     .role(Role.ADMIN)
-                    .status("ACTIVO") // Lo dejamos ACTIVO automáticamente
+                    .status("ACTIVE")
                     .build();
 
             userRepository.save(adminUser);
