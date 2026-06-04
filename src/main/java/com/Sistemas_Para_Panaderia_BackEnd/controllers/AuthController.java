@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,27 +23,27 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping("/verifyOtp")
-    public ResponseEntity<AuthResponse> verifyOtp(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.VerifyOtpRequest request) {
+    public ResponseEntity<AuthResponse> verifyOtp(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.VerifyOtpRequest request) {
         return ResponseEntity.ok(authService.verifyOtp(request.getEmail(), request.getOtp()));
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<String> forgotPassword(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
         return ResponseEntity.ok(authService.forgotPassword(request.getEmail()));
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.ResetPasswordRequest request) {
+    public ResponseEntity<String> resetPassword(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.ResetPasswordRequest request) {
         return ResponseEntity.ok(authService.resetPassword(
                 request.getEmail(),
                 request.getOtp(),
@@ -50,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/resendOtp")
-    public ResponseEntity<String> resendOtp(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
+    public ResponseEntity<String> resendOtp(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
         return ResponseEntity.ok(authService.resendOtp(request.getEmail()));
     }
 }
