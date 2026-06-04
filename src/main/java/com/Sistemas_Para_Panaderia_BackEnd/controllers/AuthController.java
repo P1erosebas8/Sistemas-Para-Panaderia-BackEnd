@@ -32,25 +32,25 @@ public class AuthController {
     }
 
     @PostMapping("/verifyOtp")
-    public ResponseEntity<AuthResponse> verifyOtp(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(authService.verifyOtp(request.get("email"), request.get("otp")));
+    public ResponseEntity<AuthResponse> verifyOtp(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.VerifyOtpRequest request) {
+        return ResponseEntity.ok(authService.verifyOtp(request.getEmail(), request.getOtp()));
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(authService.forgotPassword(request.get("email")));
+    public ResponseEntity<String> forgotPassword(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
+        return ResponseEntity.ok(authService.forgotPassword(request.getEmail()));
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+    public ResponseEntity<String> resetPassword(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.ResetPasswordRequest request) {
         return ResponseEntity.ok(authService.resetPassword(
-                request.get("email"),
-                request.get("otp"),
-                request.get("newPassword")));
+                request.getEmail(),
+                request.getOtp(),
+                request.getNewPassword()));
     }
 
     @PostMapping("/resendOtp")
-    public ResponseEntity<String> resendOtp(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(authService.resendOtp(request.get("email")));
+    public ResponseEntity<String> resendOtp(@RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
+        return ResponseEntity.ok(authService.resendOtp(request.getEmail()));
     }
 }

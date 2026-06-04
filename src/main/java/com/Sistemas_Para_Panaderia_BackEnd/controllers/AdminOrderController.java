@@ -25,8 +25,8 @@ public class AdminOrderController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<OrderResponseDTO> updateOrderStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
-        String newStatus = request.get("status");
+    public ResponseEntity<OrderResponseDTO> updateOrderStatus(@PathVariable Long id, @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.UpdateOrderStatusRequest request) {
+        String newStatus = request.getStatus();
         return ResponseEntity.ok(orderService.updateOrderStatus(id, newStatus));
     }
 }

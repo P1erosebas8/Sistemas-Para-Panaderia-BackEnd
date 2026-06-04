@@ -20,7 +20,7 @@ public class ImageUploadController {
 
     private final ImageUploadService imageUploadService;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
         String url = imageUploadService.uploadImage(file);
         return ResponseEntity.ok(Map.of("url", url));
