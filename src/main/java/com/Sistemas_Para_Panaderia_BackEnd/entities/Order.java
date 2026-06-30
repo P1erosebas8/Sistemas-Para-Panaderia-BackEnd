@@ -33,6 +33,15 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
+    @Column
+    private String deliveryAddress;
+
+    @Column
+    private String deliveryPhone;
+
+    @Column
+    private String deliveryNotes;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<OrderItem> orderItems;

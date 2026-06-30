@@ -14,4 +14,8 @@ import java.util.List;
 public class OrderRequestDTO {
     private Long userId;
     private List<OrderItemRequestDTO> items;
+    
+    private String deliveryAddress;
+    private String deliveryPhone;
+    private String deliveryNotes;
 }

@@ -39,6 +39,9 @@ public class OrderService {
                 .orderDate(LocalDateTime.now())
                 .status("PENDIENTE")
                 .totalAmount(BigDecimal.ZERO)
+                .deliveryAddress(request.getDeliveryAddress())
+                .deliveryPhone(request.getDeliveryPhone())
+                .deliveryNotes(request.getDeliveryNotes())
                 .build();
 
         List<OrderItem> orderItems = new ArrayList<>();
@@ -103,6 +106,7 @@ public class OrderService {
                 .map(item -> OrderItemResponseDTO.builder()
                         .productId(item.getProduct().getId())
                         .productName(item.getProduct().getName())
+                        .imageUrl(item.getProduct().getImageUrl())
                         .quantity(item.getQuantity())
                         .price(item.getPrice())
                         .subTotal(item.getPrice().multiply(new BigDecimal(item.getQuantity())))
@@ -115,6 +119,9 @@ public class OrderService {
                 .orderDate(order.getOrderDate())
                 .status(order.getStatus())
                 .totalAmount(order.getTotalAmount())
+                .deliveryAddress(order.getDeliveryAddress())
+                .deliveryPhone(order.getDeliveryPhone())
+                .deliveryNotes(order.getDeliveryNotes())
                 .items(itemDTOs)
                 .build();
     }

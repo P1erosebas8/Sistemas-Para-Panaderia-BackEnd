@@ -20,4 +20,7 @@ public class OrderResponseDTO {
     private String status;
     private BigDecimal totalAmount;
     private List<OrderItemResponseDTO> items;
+    private String deliveryAddress;
+    private String deliveryPhone;
+    private String deliveryNotes;
 }
