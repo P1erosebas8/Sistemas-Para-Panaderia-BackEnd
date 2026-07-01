@@ -11,7 +11,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserId(Long userId);
     List<Order> findByStatus(String status);
 
-    @org.springframework.data.jpa.repository.Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status NOT IN ('PENDIENTE', 'PENDING', 'CANCELADO') AND CAST(o.orderDate AS date) = CURRENT_DATE")
+    @org.springframework.data.jpa.repository.Query("SELECT SUM(o.totalAmount) FROM Order o WHERE UPPER(o.status) NOT IN ('PENDIENTE', 'PENDING', 'CANCELADO') AND YEAR(o.orderDate) = YEAR(CURRENT_DATE) AND MONTH(o.orderDate) = MONTH(CURRENT_DATE) AND DAY(o.orderDate) = DAY(CURRENT_DATE)")
     java.math.BigDecimal calculateTotalSales();
 
     @org.springframework.data.jpa.repository.Query("SELECT new com.Sistemas_Para_Panaderia_BackEnd.dtos.TopProductDTO(p.name, SUM(oi.quantity)) " +
