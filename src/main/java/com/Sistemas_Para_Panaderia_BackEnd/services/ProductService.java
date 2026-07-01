@@ -55,12 +55,17 @@ public class ProductService {
         return mapToResponseDTO(product);
     }
 
-    public void deactivateProduct(Long id) {
+    public ProductResponseDTO toggleProductStatus(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
                 
-        product.setStatus("INACTIVO");
-        productRepository.save(product);
+        if ("INACTIVO".equals(product.getStatus())) {
+            product.setStatus("DISPONIBLE");
+        } else {
+            product.setStatus("INACTIVO");
+        }
+        product = productRepository.save(product);
+        return mapToResponseDTO(product);
     }
 
     public ProductResponseDTO getProductById(Long id) {

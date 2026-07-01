@@ -40,9 +40,8 @@ public class AdminProductController {
         return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 
-    @PatchMapping("/{id}/deactivate")
-    public ResponseEntity<String> deactivateProduct(@PathVariable Long id) {
-        productService.deactivateProduct(id);
-        return ResponseEntity.ok("Producto desactivado exitosamente.");
+    @PatchMapping("/{id}/toggle-status")
+    public ResponseEntity<ProductResponseDTO> toggleProductStatus(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.toggleProductStatus(id));
     }
 }
