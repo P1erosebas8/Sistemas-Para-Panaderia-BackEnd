@@ -28,6 +28,8 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
                 
         user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setDni(request.getDni());
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
         
@@ -54,6 +56,8 @@ public class UserService {
         return UserProfileDTO.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .dni(user.getDni())
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .address(user.getAddress())

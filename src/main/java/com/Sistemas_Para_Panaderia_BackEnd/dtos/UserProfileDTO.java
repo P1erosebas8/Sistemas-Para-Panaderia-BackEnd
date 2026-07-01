@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class UserProfileDTO {
     private Long id;
     private String firstName;
+    private String lastName;
+    private String dni;
     private String email;
     private String phone;
     private String address;
