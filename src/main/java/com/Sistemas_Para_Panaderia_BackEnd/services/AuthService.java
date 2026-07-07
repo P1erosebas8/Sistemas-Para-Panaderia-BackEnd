@@ -159,7 +159,7 @@ public class AuthService {
                 return "Se ha reenviado un nuevo código OTP a tu correo.";
         }
 
-        @Value("${google.client.id:}")
+        @Value("${google.auth.client.id:}")
         private String googleClientId;
 
         public AuthResponse googleLogin(String idTokenString) {
