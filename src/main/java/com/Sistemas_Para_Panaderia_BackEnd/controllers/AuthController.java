@@ -54,4 +54,9 @@ public class AuthController {
     public ResponseEntity<String> resendOtp(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.EmailRequest request) {
         return ResponseEntity.ok(authService.resendOtp(request.getEmail()));
     }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleLogin(@Valid @RequestBody com.Sistemas_Para_Panaderia_BackEnd.dtos.GoogleAuthRequest request) {
+        return ResponseEntity.ok(authService.googleLogin(request.getToken()));
+    }
 }

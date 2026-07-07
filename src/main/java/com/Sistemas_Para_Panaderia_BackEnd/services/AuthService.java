@@ -14,6 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 @RequiredArgsConstructor
@@ -151,6 +157,53 @@ public class AuthService {
                 emailService.sendOtpEmail(user.getEmail(), otp);
 
                 return "Se ha reenviado un nuevo código OTP a tu correo.";
+        }
+
+        @Value("${google.client.id:}")
+        private String googleClientId;
+
+        public AuthResponse googleLogin(String idTokenString) {
+                try {
+                        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                                        .setAudience(Collections.singletonList(googleClientId))
+                                        .build();
+
+                        GoogleIdToken idToken = verifier.verify(idTokenString);
+                        if (idToken != null) {
+                                GoogleIdToken.Payload payload = idToken.getPayload();
+                                String email = payload.getEmail();
+                                String name = (String) payload.get("name");
+                                String firstNameTemp = (String) payload.get("given_name");
+                                if (firstNameTemp == null) firstNameTemp = name;
+                                final String finalFirstName = firstNameTemp;
+
+                                User user = userRepository.findByEmail(email).orElseGet(() -> {
+                                        User newUser = User.builder()
+                                                        .firstName(finalFirstName)
+                                                        .email(email)
+                                                        .password(passwordEncoder.encode(java.util.UUID.randomUUID().toString()))
+                                                        .role(Role.COMPRADOR)
+                                                        .status("ACTIVE")
+                                                        .build();
+                                        return userRepository.save(newUser);
+                                });
+
+                                String jwtToken = jwtService.generateToken(user);
+
+                                return AuthResponse.builder()
+                                                .token(jwtToken)
+                                                .id(user.getId())
+                                                .firstName(user.getFirstName())
+                                                .email(user.getEmail())
+                                                .role(user.getRole())
+                                                .status(user.getStatus())
+                                                .build();
+                        } else {
+                                throw new RuntimeException("Token de Google inválido");
+                        }
+                } catch (Exception e) {
+                        throw new RuntimeException("Error verificando token de Google: " + e.getMessage());
+                }
         }
 
 }
